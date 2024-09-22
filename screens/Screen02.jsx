@@ -1,8 +1,6 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
-import { useState } from "react";
+import React, { useState } from "react";
 import {
-  SafeAreaView,
   ScrollView,
   Image,
   StyleSheet,
@@ -19,12 +17,19 @@ const imageLogo = require("../data/Image 19.png");
 const imageInputName = require("../data/codicon_account.png");
 const imageInputEmail = require("../data/Vector.png");
 const imageInputPassword = require("../data/lock.png");
+const imageCheck = require("../data/eye.png");
+
 const Screen02 = () => {
   const navigation = useNavigation();
   const [isSelected, setSelection] = useState(false);
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
+
+  const handleShowPassword = () => {
+    setShowPassword(!showPassword);
+  };
 
   const handleContinue = () => {
     if (isSelected) {
@@ -32,12 +37,7 @@ const Screen02 = () => {
         alert("Please fill all fields");
         return;
       }
-      const newData = {
-        username,
-        email,
-        password,
-      };
-
+      const newData = { username, email, password };
       console.log("check data", newData);
       navigation.navigate("Screen_03", { data: newData });
     } else {
@@ -48,88 +48,30 @@ const Screen02 = () => {
   return (
     <ScrollView>
       <View style={styles.container}>
-        {/* navigation */}
+        {/* Navigation */}
         <View>
           <TouchableOpacity onPress={() => navigation.navigate("Screen_01")}>
             <Image
               source={imageNavigation}
-              style={{
-                resizeMode: "cover",
-                width: 20,
-                height: 20,
-              }}
+              style={{ resizeMode: "cover", width: 20, height: 20 }}
             />
           </TouchableOpacity>
         </View>
-        {/* logo */}
-        <View
-          style={{
-            alignItems: "center",
-            justifyContent: "center",
-            width: "100%",
-            height: 100,
-            // borderColor: "black",
-            // borderWidth: 1,
-            marginTop: 100,
-          }}
-        >
-          <Image
-            source={imageLogo}
-            style={{
-              resizeMode: "cover",
-            }}
-          />
+        {/* Logo */}
+        <View style={styles.logoContainer}>
+          <Image source={imageLogo} style={{ resizeMode: "cover" }} />
         </View>
-        {/* logo title */}
-        <View
-          style={{
-            alignItems: "center",
-            justifyContent: "center",
-            width: "100%",
-            paddingBottom: 10,
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 30,
-              fontWeight: "bold",
-            }}
-          >
-            Nice to meet you!
-          </Text>
+        {/* Title */}
+        <View style={styles.titleContainer}>
+          <Text style={styles.titleText}>Nice to meet you!</Text>
         </View>
-        {/* logo subtitle */}
-        <View
-          style={{
-            alignItems: "center",
-            justifyContent: "center",
-            width: "100%",
-            marginBottom: 70,
-          }}
-        >
-          <Text
-            style={{
-              fontSize: 13,
-              color: "grey",
-            }}
-          >
-            Create your account
-          </Text>
+        {/* Subtitle */}
+        <View style={styles.subtitleContainer}>
+          <Text style={styles.subtitleText}>Create your account</Text>
         </View>
         {/* Username Input */}
         <View style={styles.inputContainer}>
-          <Image
-            source={imageInputName}
-            style={{
-              // absolut
-              width: 20,
-              height: 20,
-              resizeMode: "cover",
-              position: "absolute",
-              top: 15,
-              left: 15,
-            }}
-          />
+          <Image source={imageInputName} style={styles.icon} />
           <TextInput
             style={styles.input}
             placeholder="Enter your user name"
@@ -140,18 +82,7 @@ const Screen02 = () => {
         </View>
         {/* Email Input */}
         <View style={styles.inputContainer}>
-          <Image
-            source={imageInputEmail}
-            style={{
-              // absolut
-              width: 20,
-              height: 20,
-              resizeMode: "cover",
-              position: "absolute",
-              top: 15,
-              left: 15,
-            }}
-          />
+          <Image source={imageInputEmail} style={styles.icon} />
           <TextInput
             style={styles.input}
             placeholder="Enter your email"
@@ -162,40 +93,32 @@ const Screen02 = () => {
         </View>
         {/* Password Input */}
         <View style={styles.inputContainer}>
-          <Image
-            source={imageInputPassword}
-            style={{
-              // absolut
-              width: 20,
-              height: 20,
-              resizeMode: "cover",
-              position: "absolute",
-              top: 15,
-              left: 15,
-            }}
-          />
+          <Image source={imageInputPassword} style={styles.icon} />
+          <TouchableOpacity onPress={handleShowPassword} style={styles.eyeIcon}>
+            <Image
+              source={imageCheck}
+              style={{
+                width: 20,
+                height: 20,
+                tintColor: showPassword ? "black" : "grey",
+              }}
+            />
+          </TouchableOpacity>
           <TextInput
             style={styles.input}
             placeholder="Enter your password"
             autoCapitalize="none"
             value={password}
             onChangeText={setPassword}
-            secureTextEntry
+            secureTextEntry={!showPassword}
           />
         </View>
         {/* Terms & Conditions */}
-        <View
-          style={{
-            flexDirection: "row",
-            marginTop: 10,
-          }}
-        >
+        <View style={styles.termsContainer}>
           <CheckBox
             value={isSelected}
             onValueChange={setSelection}
-            style={{
-              marginRight: 10,
-            }}
+            style={styles.checkbox}
           />
           <Text>
             I agree with
@@ -203,27 +126,62 @@ const Screen02 = () => {
           </Text>
         </View>
         {/* Button Continue */}
-        <View
-          style={{
-            marginTop: 20,
-            width: "100%",
-            borderRadius: 8,
-          }}
-        >
+        <View style={styles.buttonContainer}>
           <Button title="Continue" onPress={handleContinue} color="#00CFFF" />
         </View>
       </View>
     </ScrollView>
   );
 };
+
 const styles = StyleSheet.create({
   container: {
     marginVertical: 20,
     marginHorizontal: 20,
   },
+  logoContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    height: 100,
+    marginTop: 100,
+  },
+  titleContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    paddingBottom: 10,
+  },
+  titleText: {
+    fontSize: 30,
+    fontWeight: "bold",
+  },
+  subtitleContainer: {
+    alignItems: "center",
+    justifyContent: "center",
+    width: "100%",
+    marginBottom: 70,
+  },
+  subtitleText: {
+    fontSize: 13,
+    color: "grey",
+  },
   inputContainer: {
     position: "relative",
     marginBottom: 10,
+  },
+  icon: {
+    width: 20,
+    height: 20,
+    resizeMode: "cover",
+    position: "absolute",
+    top: 15,
+    left: 15,
+  },
+  eyeIcon: {
+    position: "absolute",
+    top: 15,
+    right: 15,
   },
   input: {
     borderWidth: 1,
@@ -235,5 +193,18 @@ const styles = StyleSheet.create({
     paddingLeft: 50,
     color: "grey",
   },
+  termsContainer: {
+    flexDirection: "row",
+    marginTop: 10,
+  },
+  checkbox: {
+    marginRight: 10,
+  },
+  buttonContainer: {
+    marginTop: 20,
+    width: "100%",
+    borderRadius: 8,
+  },
 });
+
 export default Screen02;
