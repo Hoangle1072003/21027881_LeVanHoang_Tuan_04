@@ -29,6 +29,13 @@ const Screen03 = ({ route }) => {
       alert("Invalid email or password");
       return;
     }
+    if (email === data.email && password !== data.password) {
+      alert("Invalid password");
+      return;
+    }
+    if (email === data.email && password === data.password) {
+      alert("Login success");
+    }
     navigation.navigate("Screen_04");
   };
   return (

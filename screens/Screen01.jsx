@@ -62,7 +62,11 @@ const Screen_01 = () => {
             </View>
           </TouchableOpacity>
           {/*  Button Log in */}
-          <TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigation.navigate("Screen_03", {});
+            }}
+          >
             <View
               style={{
                 paddingVertical: 10,
