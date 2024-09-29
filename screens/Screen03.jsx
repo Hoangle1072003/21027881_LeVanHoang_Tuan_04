@@ -9,6 +9,7 @@ import {
   StyleSheet,
   TouchableOpacity,
 } from "react-native";
+import Toast from "react-native-toast-message";
 
 const image = require("../data/Image 20.png");
 const imageInputName = require("../data/codicon_account.png");
@@ -22,19 +23,52 @@ const Screen03 = ({ route }) => {
   console.log("data", data);
   const handleLogin = () => {
     if (!email || !password) {
-      alert("Please fill all fields");
+     Toast.show({
+        type: "error",
+        position: "top",
+        text1: "Error",
+        text2: "Please fill all fields",
+     });
       return;
     }
+    
     if (email !== data.email || password !== data.password) {
-      alert("Invalid email or password");
+      Toast.show({
+        type: "error",
+        position: "top",
+        text1: "Error",
+        text2: "Invalid email or password",
+      })
       return;
     }
     if (email === data.email && password !== data.password) {
-      alert("Invalid password");
+      Toast.show({
+        type: "error",
+        position: "top",
+        text1: "Error",
+        text2: "Invalid email or password",
+      })
       return;
     }
+
+    if (email !== data.email && password === data.password) {
+      Toast.show({
+        type: "error",
+        position: "top",
+        text1: "Error",
+        text2: "Invalid email or password",
+      })
+      return;
+    }
+
+
     if (email === data.email && password === data.password) {
-      alert("Login success");
+      Toast.show({
+        type: "success",
+        position: "top",
+        text1: "Success",
+        text2: "Login successfully",
+      })
     }
     navigation.navigate("Screen_04");
   };

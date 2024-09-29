@@ -11,6 +11,7 @@ import {
   TouchableOpacity,
   Button,
 } from "react-native";
+import Toast from "react-native-toast-message";
 
 // Nạp dữ liệu JSON
 const data = require("../products.json");
@@ -26,10 +27,25 @@ const Screen04 = () => {
   const navigation = useNavigation();
 
   const handleAddToCard = () => {
-    alert(JSON.stringify(db) + "\nTotal: " + total);
+    // alert(JSON.stringify(db) + "\nTotal: " + total);
+   const newDb =  JSON.stringify(db);
+   console.log("newDB: ", newDb);
+    console.log("newDB: ", db);
+    const message = `Success! Added to cart. Total: ${total}`;
+    Toast.show({
+      type: "success",
+      position: "top",
+      text1: message,
+      text2:"Data: " + newDb,
+      visibilityTime: 4000, // 4 seconds
+      autoHide: true, 
+      topOffset: 50,
+      bottomOffset: 40,
+    })
   };
   const handlePlus = () => {
     const exist = db.find((item) => item.id === selectedProduct.id);
+    console.log("exist", exist);
     if (!selectedProduct) {
       return;
     }
@@ -48,11 +64,46 @@ const Screen04 = () => {
     }
     setSelectCount((prev) => ({
       ...prev,
-      [selectedProduct.id]: (prev[selectedProduct.id] || 0) + 1,
+      [selectedProduct.id]: (prev[selectedProduct.id] || 0) + 1, 
     }));
     setTotal((prev) => prev + selectedProduct.price);
     setData((prev) => [...prev, selectedProduct]);
   };
+
+  const handleSub = () => {
+    if (!selectedProduct) {
+      return; // Early return if no product is selected
+    }
+  
+    const exist = db.find((item) => item.id === selectedProduct.id);
+    console.log("exist", exist);
+  
+    if (exist) {
+      const currentCount = selectCount[selectedProduct.id] || 0;
+  
+      if (currentCount > 1) {
+        const newDb = db.map((item) =>
+          item.id === selectedProduct.id ? { ...item } : item
+        );
+        setData(newDb);
+        setSelectCount((prev) => ({
+          ...prev,
+          [selectedProduct.id]: currentCount - 1,
+        }));
+        setTotal((prev) => prev - selectedProduct.price);
+      } else {
+        const newDb = db.filter((item) => item.id !== selectedProduct.id);
+        setData(newDb);
+        setSelectCount((prev) => ({
+          ...prev,
+          [selectedProduct.id]: 0,
+        }));
+        setTotal((prev) => prev - selectedProduct.price);
+      
+      }
+    }
+  }
+
   const renderProducts = ({ item }) => {
     return (
       <View style={styles.productCard}>
@@ -69,7 +120,7 @@ const Screen04 = () => {
                 width: 70,
                 height: 70,
                 borderColor:
-                  item.id === selectedProduct.id ? "#00CFFF" : "#000",
+                item.id === selectedProduct.id ? "#00CFFF" : "#000",
                 borderWidth: item.id === selectedProduct.id ? 1 : 0,
                 borderRadius: 10,
                 backgroundColor: "#f3acbc1c",
@@ -281,7 +332,9 @@ const Screen04 = () => {
                 alignItems: "center",
               }}
             >
-              <TouchableOpacity>
+              <TouchableOpacity onPress={()=>{
+                handleSub();
+              }}>
                 <View
                   style={{
                     backgroundColor: "#f3acbc1c",
@@ -289,7 +342,7 @@ const Screen04 = () => {
                     borderRadius: 10,
                   }}
                 >
-                  x
+                  <Text>-</Text>
                 </View>
               </TouchableOpacity>
               <View

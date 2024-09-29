@@ -11,6 +11,7 @@ import {
   TextInput,
   CheckBox,
 } from "react-native";
+import Toast from "react-native-toast-message";
 
 const imageNavigation = require("../data/Image 183.png");
 const imageLogo = require("../data/Image 19.png");
@@ -34,14 +35,24 @@ const Screen02 = () => {
   const handleContinue = () => {
     if (isSelected) {
       if (!username || !email || !password) {
-        alert("Please fill all fields");
+        Toast.show({
+          type: "error",
+          position: "top",
+          text1: "Error",
+          text2: "Please fill all fields",
+        })
         return;
       }
       const newData = { username, email, password };
       console.log("check data", newData);
       navigation.navigate("Screen_03", { data: newData });
     } else {
-      alert("Please agree with Terms & Conditions");
+      Toast.show({
+        type: "error",
+        position: "top",
+        text1: "Error",
+        text2: "Please agree with Terms & Conditions",
+      });
     }
   };
 
@@ -110,7 +121,7 @@ const Screen02 = () => {
             autoCapitalize="none"
             value={password}
             onChangeText={setPassword}
-            secureTextEntry={!showPassword}
+            secureTextEntry={!showPassword} // hide password
           />
         </View>
         {/* Terms & Conditions */}
