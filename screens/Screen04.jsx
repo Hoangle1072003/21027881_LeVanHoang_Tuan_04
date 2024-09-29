@@ -31,6 +31,7 @@ const Screen04 = () => {
    const newDb =  JSON.stringify(db);
    console.log("newDB: ", newDb);
     console.log("newDB: ", db);
+    console.log("Total: ", total);
     const message = `Success! Added to cart. Total: ${total}`;
     Toast.show({
       type: "success",
