@@ -1,5 +1,4 @@
 import { useNavigation } from "@react-navigation/native";
-import React from "react";
 import {
   SafeAreaView,
   ScrollView,
@@ -11,9 +10,8 @@ import {
   Button,
 } from "react-native";
 
-const imageContainer17 = require("../data/Container 17.png");
-
-const Screen_01 = () => {
+export default function Screen_01() {
+  const imageContainer17 = require("../data/Container17.png");
   const navigation = useNavigation();
   return (
     <SafeAreaView>
@@ -37,6 +35,7 @@ const Screen_01 = () => {
           </View>
           {/* Button Sign up */}
           <TouchableOpacity
+            onPress={() => navigation.navigate("Screen_02")}
             style={{
               width: "85%",
               height: 35,
@@ -48,44 +47,38 @@ const Screen_01 = () => {
               justifyContent: "center",
             }}
           >
-            <View>
-              <Text
-                onPress={() => navigation.navigate("Screen_02")}
-                style={{
-                  color: "#fff",
-                  fontSize: 15,
-                  fontWeight: "bold",
-                }}
-              >
-                Sign up
-              </Text>
-            </View>
+            <Text
+              style={{
+                color: "#fff",
+                fontSize: 15,
+                fontWeight: "bold",
+              }}
+            >
+              Sign up
+            </Text>
           </TouchableOpacity>
           {/*  Button Log in */}
           <TouchableOpacity
             onPress={() => {
               navigation.navigate("Screen_03", {});
             }}
+            style={{
+              paddingVertical: 10,
+              alignItems: "center",
+              backgroundColor: "#fff",
+              textAlign: "center",
+              justifyContent: "center",
+              borderColor: "#00CFFF",
+            }}
           >
-            <View
+            <Text
               style={{
-                paddingVertical: 10,
-                alignItems: "center",
-                backgroundColor: "#fff",
-                textAlign: "center",
-                justifyContent: "center",
-                borderColor: "#00CFFF",
+                color: "#000",
+                fontSize: 15,
               }}
             >
-              <Text
-                style={{
-                  color: "#000",
-                  fontSize: 15,
-                }}
-              >
-                Log in
-              </Text>
-            </View>
+              Log in
+            </Text>
           </TouchableOpacity>
           {/* dot */}
           <View style={styles.pageIndicatorContainer}>
@@ -97,7 +90,7 @@ const Screen_01 = () => {
       </ScrollView>
     </SafeAreaView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -137,5 +130,3 @@ const styles = StyleSheet.create({
     backgroundColor: "#00CFFF",
   },
 });
-
-export default Screen_01;

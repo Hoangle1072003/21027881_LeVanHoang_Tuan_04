@@ -1,5 +1,5 @@
-import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import { useNavigation, useRoute } from "@react-navigation/native";
+import { useState } from "react";
 import {
   Image,
   ScrollView,
@@ -11,34 +11,35 @@ import {
 } from "react-native";
 import Toast from "react-native-toast-message";
 
-const image = require("../data/Image 20.png");
-const imageInputName = require("../data/codicon_account.png");
-const imageInputEmail = require("../data/Vector.png");
-const imageInputPassword = require("../data/lock.png");
-const Screen03 = ({ route }) => {
+export default function Screen_03() {
+  const image = require("../data/Image20.png");
+  const imageInputName = require("../data/codicon_account.png");
+  const imageInputEmail = require("../data/Vector.png");
+  const imageInputPassword = require("../data/lock.png");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
+  const route = useRoute();
   const { data } = route.params;
   console.log("data", data);
   const handleLogin = () => {
     if (!email || !password) {
-     Toast.show({
+      Toast.show({
         type: "error",
         position: "top",
         text1: "Error",
         text2: "Please fill all fields",
-     });
+      });
       return;
     }
-    
+
     if (email !== data.email || password !== data.password) {
       Toast.show({
         type: "error",
         position: "top",
         text1: "Error",
         text2: "Invalid email or password",
-      })
+      });
       return;
     }
     if (email === data.email && password !== data.password) {
@@ -47,7 +48,7 @@ const Screen03 = ({ route }) => {
         position: "top",
         text1: "Error",
         text2: "Invalid email or password",
-      })
+      });
       return;
     }
 
@@ -57,10 +58,9 @@ const Screen03 = ({ route }) => {
         position: "top",
         text1: "Error",
         text2: "Invalid email or password",
-      })
+      });
       return;
     }
-
 
     if (email === data.email && password === data.password) {
       Toast.show({
@@ -68,7 +68,7 @@ const Screen03 = ({ route }) => {
         position: "top",
         text1: "Success",
         text2: "Login successfully",
-      })
+      });
     }
     navigation.navigate("Screen_04");
   };
@@ -226,11 +226,10 @@ const Screen03 = ({ route }) => {
       </View>
     </ScrollView>
   );
-};
+}
 const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginHorizontal: 20,
   },
 });
-export default Screen03;

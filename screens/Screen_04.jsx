@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   ScrollView,
   Text,
@@ -13,13 +13,44 @@ import {
 } from "react-native";
 import Toast from "react-native-toast-message";
 
-// Nạp dữ liệu JSON
-const data = require("../products.json");
-const navigations = require("../data/Image 183.png");
-const rating = require("../data/Rating 3.png");
-const plus = require("../data/Button 5.png");
+export default function Screen_04() {
+  // Nạp dữ liệu JSON
 
-const Screen04 = () => {
+  const data = [
+    {
+      id: 1,
+      name: "Product 1",
+      price: 100,
+      images: require("../data/Container7.png"),
+      rating: 4,
+    },
+    {
+      id: 2,
+      name: "Product 2",
+      price: 99,
+      images: require("../data/Container7(1).png"),
+      rating: 3,
+    },
+    {
+      id: 3,
+      name: "Product 3",
+      price: 120,
+      images: require("../data/Container7(2).png"),
+      rating: 5,
+    },
+    {
+      id: 4,
+      name: "Product 4",
+      price: 50,
+      images: require("../data/Container7(3).png"),
+      rating: 2,
+    },
+  ];
+
+  // const data = require("../products.json");
+  const navigations = require("../data/Image183.png");
+  const rating = require("../data/Rating3.png");
+  const plus = require("../data/Button5.png");
   const [selectedProduct, setSelectedProduct] = useState(data[0]);
   const [selectCount, setSelectCount] = useState({});
   const [total, setTotal] = useState(0);
@@ -28,8 +59,8 @@ const Screen04 = () => {
 
   const handleAddToCard = () => {
     // alert(JSON.stringify(db) + "\nTotal: " + total);
-   const newDb =  JSON.stringify(db);
-   console.log("newDB: ", newDb);
+    const newDb = JSON.stringify(db);
+    console.log("newDB: ", newDb);
     console.log("newDB: ", db);
     console.log("Total: ", total);
     const message = `Success! Added to cart. Total: ${total}`;
@@ -37,12 +68,12 @@ const Screen04 = () => {
       type: "success",
       position: "top",
       text1: message,
-      text2:"Data: " + newDb,
+      text2: "Data: " + newDb,
       visibilityTime: 4000, // 4 seconds
-      autoHide: true, 
+      autoHide: true,
       topOffset: 50,
       bottomOffset: 40,
-    })
+    });
   };
   const handlePlus = () => {
     const exist = db.find((item) => item.id === selectedProduct.id);
@@ -65,7 +96,7 @@ const Screen04 = () => {
     }
     setSelectCount((prev) => ({
       ...prev,
-      [selectedProduct.id]: (prev[selectedProduct.id] || 0) + 1, 
+      [selectedProduct.id]: (prev[selectedProduct.id] || 0) + 1,
     }));
     setTotal((prev) => prev + selectedProduct.price);
     setData((prev) => [...prev, selectedProduct]);
@@ -75,13 +106,13 @@ const Screen04 = () => {
     if (!selectedProduct) {
       return; // Early return if no product is selected
     }
-  
+
     const exist = db.find((item) => item.id === selectedProduct.id);
     console.log("exist", exist);
-  
+
     if (exist) {
       const currentCount = selectCount[selectedProduct.id] || 0;
-  
+
       if (currentCount > 1) {
         const newDb = db.map((item) =>
           item.id === selectedProduct.id ? { ...item } : item
@@ -100,10 +131,9 @@ const Screen04 = () => {
           [selectedProduct.id]: 0,
         }));
         setTotal((prev) => prev - selectedProduct.price);
-      
       }
     }
-  }
+  };
 
   const renderProducts = ({ item }) => {
     return (
@@ -115,13 +145,13 @@ const Screen04 = () => {
             }}
           >
             <Image
-              source={{ uri: item.images }}
+              source={item.images}
               style={{
                 resizeMode: "cover",
                 width: 70,
                 height: 70,
                 borderColor:
-                item.id === selectedProduct.id ? "#00CFFF" : "#000",
+                  item.id === selectedProduct.id ? "#00CFFF" : "#000",
                 borderWidth: item.id === selectedProduct.id ? 1 : 0,
                 borderRadius: 10,
                 backgroundColor: "#f3acbc1c",
@@ -183,10 +213,10 @@ const Screen04 = () => {
           }}
         >
           <Image
-            source={{ uri: selectedProduct.images }}
+            source={selectedProduct.images}
             style={{
               resizeMode: "cover",
-              // width: "100%",
+              width: "100%",
               height: 200,
               borderColor: "#000",
               // borderWidth: 1,
@@ -333,9 +363,11 @@ const Screen04 = () => {
                 alignItems: "center",
               }}
             >
-              <TouchableOpacity onPress={()=>{
-                handleSub();
-              }}>
+              <TouchableOpacity
+                onPress={() => {
+                  handleSub();
+                }}
+              >
                 <View
                   style={{
                     backgroundColor: "#f3acbc1c",
@@ -470,7 +502,7 @@ const Screen04 = () => {
       </View>
     </ScrollView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -482,5 +514,3 @@ const styles = StyleSheet.create({
     width: (Dimensions.get("window").width - 50) / 4,
   },
 });
-
-export default Screen04;

@@ -1,5 +1,5 @@
 import { useNavigation } from "@react-navigation/native";
-import React, { useState } from "react";
+import { useState } from "react";
 import {
   ScrollView,
   Image,
@@ -9,18 +9,17 @@ import {
   TouchableOpacity,
   Button,
   TextInput,
-  CheckBox,
 } from "react-native";
+import Checkbox from "expo-checkbox";
 import Toast from "react-native-toast-message";
 
-const imageNavigation = require("../data/Image 183.png");
-const imageLogo = require("../data/Image 19.png");
-const imageInputName = require("../data/codicon_account.png");
-const imageInputEmail = require("../data/Vector.png");
-const imageInputPassword = require("../data/lock.png");
-const imageCheck = require("../data/eye.png");
-
-const Screen02 = () => {
+export default function Screen_02() {
+  const imageNavigation = require("../data/Image183.png");
+  const imageLogo = require("../data/Image19.png");
+  const imageInputName = require("../data/codicon_account.png");
+  const imageInputEmail = require("../data/Vector.png");
+  const imageInputPassword = require("../data/lock.png");
+  const imageCheck = require("../data/eye.png");
   const navigation = useNavigation();
   const [isSelected, setSelection] = useState(false);
   const [username, setUsername] = useState("");
@@ -40,7 +39,7 @@ const Screen02 = () => {
           position: "top",
           text1: "Error",
           text2: "Please fill all fields",
-        })
+        });
         return;
       }
       const newData = { username, email, password };
@@ -126,7 +125,7 @@ const Screen02 = () => {
         </View>
         {/* Terms & Conditions */}
         <View style={styles.termsContainer}>
-          <CheckBox
+          <Checkbox
             value={isSelected}
             onValueChange={setSelection}
             style={styles.checkbox}
@@ -143,7 +142,7 @@ const Screen02 = () => {
       </View>
     </ScrollView>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
@@ -217,5 +216,3 @@ const styles = StyleSheet.create({
     borderRadius: 8,
   },
 });
-
-export default Screen02;
